@@ -7,9 +7,9 @@ import numpy as np
 import os
 print(os.getcwd())
 # loading the saved models
-heart_disease_model_lr = pickle.load(open('/mount/src/heart_disease/logistic_model_pkl','rb'))
+heart_disease_model_lr = pickle.load(open('logistic_model_pkl','rb'))
 print('heart_disease_model_lr loaded')
-heart_disease_model_dt = pickle.load(open('/mount/src/heart_disease/DecisionTreeClassifier','rb'))
+heart_disease_model_dt = pickle.load(open('DecisionTreeClassifier','rb'))
 print('heart_disease_model_dt loaded')
 heart_disease_model_xgb = pickle.load(open('/mount/src/heart_disease/XGBoost','rb'))
 print('heart_disease_model_xgb loaded')

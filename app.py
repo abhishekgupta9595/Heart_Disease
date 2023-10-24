@@ -5,9 +5,9 @@ from streamlit_option_menu import option_menu
 import numpy as np
 
 # loading the saved models
-heart_disease_model_lr = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/logistic_model_pkl','rb'))
-heart_disease_model_dt = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/DecisionTreeClassifier.pkl','rb'))
-heart_disease_model_xgb = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/XGBoost.pkl','rb'))
+heart_disease_model_lr = pickle.load(open('logistic_model_pkl','rb'))
+heart_disease_model_dt = pickle.load(open('DecisionTreeClassifier.pkl','rb'))
+heart_disease_model_xgb = pickle.load(open('XGBoost.pkl','rb'))
 
 # sidebar for navigation
 with st.sidebar:
@@ -31,7 +31,7 @@ if (selected == 'Heart Disease Prediction'):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        age = st.text_input('Age',value="56")
+        age = st.text_input('Age',value="37")
         age=int(age)
     with col2:
         sex = st.text_input('Sex',value="1")

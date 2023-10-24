@@ -7,9 +7,12 @@ import numpy as np
 import os
 print(os.getcwd())
 # loading the saved models
-heart_disease_model_lr = pickle.load(open('logistic_model_pkl.pkl','rb'))
+heart_disease_model_lr = pickle.load(open('logistic_model_pkl','rb'))
+print('heart_disease_model_lr loaded')
 heart_disease_model_dt = pickle.load(open('DecisionTreeClassifier.pkl','rb'))
+print('heart_disease_model_dt loaded')
 heart_disease_model_xgb = pickle.load(open('XGBoost.pkl','rb'))
+print('heart_disease_model_xgb loaded')
 
 # sidebar for navigation
 with st.sidebar:

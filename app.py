@@ -1,114 +1,119 @@
-
-import pickle
 import streamlit as st
-from streamlit_option_menu import option_menu
 import numpy as np
-
+import pandas as pd
+import pickle
+import time
 import os
-print(os.getcwd())
-# loading the saved models
-heart_disease_model_lr = pickle.load(open('/mount/src/heart_disease/logistic_model_pkl.pkl','rb'))
-print('heart_disease_model_lr loaded')
-heart_disease_model_dt = pickle.load(open('/mount/src/heart_disease/DecisionTreeClassifier.pkl','rb'))
-print('heart_disease_model_dt loaded')
-heart_disease_model_xgb = pickle.load(open('/mount/src/heart_disease/XGBoost.pkl','rb'))
-print('heart_disease_model_xgb loaded')
-
-# sidebar for navigation
-with st.sidebar:
-    
-    selected = option_menu('Heart Disease Prediction Module',
-                          
-                          [
-                           'Heart Disease Prediction'],
-                          icons=['heart'],
-                          default_index=0)
-    
-    
+#from sklearn.externals import joblib 
+from features_utils import *
+from pipeline import *
+from subprocess import call
+#import joblib
 
 
-# Heart Disease Prediction Page
-if (selected == 'Heart Disease Prediction'):
-    
-    # page title
-    st.title('Heart Disease Prediction using Machine Learning')
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        age = st.text_input('Age',value="37")
-        age=int(age)
-    with col2:
-        sex = st.text_input('Sex',value="1")
-        sex=int(sex)
-    with col3:
-        cp = st.text_input('Chest Pain types',value="2")
-        cp=int(cp)
-    with col1:
-        trestbps = st.text_input('Resting Blood Pressure',value="130")
-        trestbps= int(trestbps)
-    with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl',value="250")
-        chol=int(chol)
-    with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl',value="0")
-        fbs=int(fbs)
-    with col1:
-        restecg = st.text_input('Resting Electrocardiographic results',value="1")
-        restecg=int(restecg)
-    with col2:
-        thalach = st.text_input('Maximum Heart Rate achieved',value="187")
-        thalach=int(thalach)
-    with col3:
-        exang = st.text_input('Exercise Induced Angina',value="0")
-        exang =int(exang)
-    with col1:
-        oldpeak = st.text_input('ST depression induced by exercise',value="3.5")
-        oldpeak=float(oldpeak)
-    with col2:
-        slope = st.text_input('Slope of the peak exercise ST segment',value="0")
-        slope=int(slope)
-    with col3:
-        ca = st.text_input('Major vessels colored by flourosopy',value="0")
-        ca =int(ca)
-    with col1:
-        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect',value="2")
-        thal =int(thal)
+st.title('Heart Disease Diagnosis Assistant')
+st.markdown('This application is meant to **_assist_ _doctors_ _in_ diagnosing**, if a patient has a **_Heart_ _Disease_ _or_ not** using few details about their health')
+
+st.markdown('Please **Enter _the_ _below_ details** to know the results -')
+
+age = st.text_input(label='Age')
+
+gender_ls = ['Male', 'Female']
+sex = st.selectbox('Gender', gender_ls)
+
+cp_ls = ['Typical Angina', 'Atypical Angina', 'Non-anginal pain', 'Asymptomatic']
+cp = st.selectbox('Chest pain Type', cp_ls)
+
+restbp = st.slider('Resting Blood Pressure', 0, 220, 120)
+
+chol = st.slider('Serum Cholestoral in mg/dl', 0, 600, 150)
+
+fbs_ls = ['fasting blood sugar > 120 mg/dl', 'fasting blood sugar < 120 mg/dl']
+fbs = st.selectbox('Fasting Blood Sugar (>126 mg/dL signals diabetes)', fbs_ls)
+
+
+restecg_ls = ['Nothing to Note', 'ST-T Wave abnormality', 'Left Ventricular Hypertrophy']
+restecg = st.selectbox('Resting ECG(Electrocardiographic)', restecg_ls)
+
+thalach = st.slider('Maximum Heart Rate Achieved (Thalach)', 0, 250, 100)
+
+exang_ls = ['Yes', 'No']
+exang = st.selectbox('Exercise Induced Angina', exang_ls)
+
+oldpeak = st.text_input(label= 'Oldpeak: ST Depression induced by exercise relative to rest (0-6)')
+
+slope_ls = ['Unslopping: Better heart rate with exercise', 'Flatsloping: Minimal change', 'Downslopings: Signs of unhealthy heart']
+slope = st.selectbox('Slope of Peak exercise ST Segment', slope_ls)
+
+ca_ls = [0, 1, 2, 3, 4]
+ca = st.selectbox('Number of Major vessels colored by flourosopy', ca_ls)
+
+thal_ls = ['Normal:1', 'Normal:3', 'Fixed defect:6', 'Reversable defect:7']
+thal = st.selectbox('Thalium Stress result', thal_ls)
+
+
+ensemble_pred = ''
+
+if st.button('Check Diagnosis'):
+
+    if os.path.exists('inputData.csv'):
+        #st.text('yes it exists 1')
+        os.remove('inputData.csv')
+
+    if os.path.exists('featuresDP.csv'):
+        #st.text('yes it exists 2')
+        os.remove('featuresDP.csv')
+
+    if os.path.exists('featuresFE.csv'):
+        #st.text('yes it exists 3')
+        os.remove('featuresFE.csv')
+
+    if os.path.exists('prediction.txt'):
+        #st.text('yes it exists 4')
+        os.remove('prediction.txt')
+
+
+    with st.spinner('Running the Diagnostic.. '):
+        #create input dataframe to send as input to Luigi Pipeline
+        df_pred = pd.DataFrame([[age, sex, cp, restbp, chol, fbs, 
+                        restecg, thalach, exang, slope, ca, thal]], 
+                       columns= original_cols)
+        df_pred.to_csv('./inputData.csv')
+
+        #ensemble_pred = os.system(pipeline.py)
+        #luigi.run()
+    try:
+        call("python pipeline.py PredictEnsemble --local-scheduler", shell=True)
+    except Exception as e:
+        st.text(e)
+
         
-     
-     
-    # code for Prediction
-    heart_diagnosis = ''
+    try:
+            
+        with open('prediction.txt', 'r') as f:
+            ensemble_pred = f.read()    
+        st.header('The patient {}'.format(str(ensemble_pred)))
+    except Exception as e:
+        st.header('Please provide all the input values & within range')
+        #st.text(e)
 
+    #f = open('pred.txt', 'r')
+    #st.text(str(f.read()))
 
-    input_data_array=np.asarray(tuple([age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal]))
-    print('input_data_array type',type(input_data_array))
-    input_data_reshaped = input_data_array.reshape(1,-1)
-
-    if st.button('Heart Disease Test Result'):
-        heart_prediction_lr = heart_disease_model_lr.predict(input_data_reshaped)                          
-        heart_prediction_dt = heart_disease_model_dt.predict(input_data_reshaped)                          
-        heart_prediction_xgb = heart_disease_model_xgb.predict(input_data_reshaped)                          
-        
-
-        #Model Ensemble
-        import statistics
-        ensemble_pred = statistics.mode([int(heart_prediction_lr), int(heart_prediction_dt), int(heart_prediction_xgb)])
-        
-        if (ensemble_pred == 1):
-          heart_diagnosis = 'The person is having heart disease'
-        else:
-          heart_diagnosis = 'The person does not have any heart disease'
-        
-    st.success(heart_diagnosis)
-        
-    
-    
-# DOES NOT
-# input_data=(67,1,0,160,286,0,0,108,1,1.5,1,3,2)
-
-#HAS DISEASE
-#input_data=(37,1,2,130,250,0,1,187,0,3.5,0,0,2)
+st.text('\n')
+st.text('\n')
+st.text('\n')
+st.text('\n')
+st.text('\n')
+st.text('\n')
+st.text('\n')
+st.text('\n')
 
 
 
+
+st.markdown('This Application Uses an **_Ensemble_ _of_ _3_ models(KNN, Logistic, Random Forest for Prediction)**')
+st.markdown('**App Framework** - **Streamlit**')
+st.markdown('**Inference Pipeline** - **Luigi**')
+st.markdown('**Developed by** - Nikhil Kohli')
+st.markdown('**www.linkedin.com/in/nikhilkohli92**')

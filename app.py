@@ -8,15 +8,15 @@ import logging
 import os
 print(os.getcwd())
 # loading the saved models
-file_path = 'logistic_model_pkl'
-with open(file_path , 'rb') as f:
-    heart_disease_model_lr = pickle.load(file_path,'rb')
+# file_path = 'logistic_model_pkl'
+# with open(file_path , 'rb') as f:
+#     heart_disease_model_lr = pickle.load(file_path,'rb')
 
-#heart_disease_model_lr = pickle.load(('models/logistic_model_pkl','rb'))
+heart_disease_model_lr = pickle.load('models/logistic_model_pkl')
 #log.info('heart_disease_model_lr loaded')
-heart_disease_model_dt = pickle.load(os.path.join('models/DecisionTreeClassifier.pkl','rb'))
+heart_disease_model_dt = pickle.load('models/DecisionTreeClassifier.pkl')
 #log.info('heart_disease_model_dt loaded'
-heart_disease_model_xgb = pickle.load(os.path.join('models/XGBoost.pkl','rb'))
+heart_disease_model_xgb = pickle.load('models/XGBoost.pkl')
 #log.info('heart_disease_model_xgb loaded')
 
 # sidebar for navigation

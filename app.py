@@ -8,11 +8,11 @@ import logging
 import os
 print(os.getcwd())
 # loading the saved models
-heart_disease_model_lr = pickle.load(os.path.join('logistic_model_pkl.pkl','rb'))
+heart_disease_model_lr = pickle.load(os.path.join('models/logistic_model_pkl.pkl','rb'))
 #log.info('heart_disease_model_lr loaded')
-heart_disease_model_dt = pickle.load(os.path.join('DecisionTreeClassifier.pkl','rb'))
+heart_disease_model_dt = pickle.load(os.path.join('models/DecisionTreeClassifier.pkl','rb'))
 #log.info('heart_disease_model_dt loaded'
-heart_disease_model_xgb = pickle.load(os.path.join('XGBoost.pkl','rb'))
+heart_disease_model_xgb = pickle.load(os.path.join('models/XGBoost.pkl','rb'))
 #log.info('heart_disease_model_xgb loaded')
 
 # sidebar for navigation
@@ -26,7 +26,7 @@ with st.sidebar:
                           default_index=0)
     
     
-
+ 
 
 # Heart Disease Prediction Page
 if (selected == 'Heart Disease Prediction'):

@@ -8,7 +8,7 @@ import logging
 import os
 print(os.getcwd())
 # loading the saved models
-heart_disease_model_lr = pickle.load('models/logistic_model_pkl.pkl','rb')
+heart_disease_model_lr = pickle.load(('models/logistic_model_pkl.pkl','rb'))
 #log.info('heart_disease_model_lr loaded')
 heart_disease_model_dt = pickle.load(os.path.join('models/DecisionTreeClassifier.pkl','rb'))
 #log.info('heart_disease_model_dt loaded'

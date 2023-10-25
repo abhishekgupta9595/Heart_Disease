@@ -11,16 +11,16 @@ print(os.getcwd())
 # file_path = 'logistic_model_pkl'
 # with open(file_path , 'rb') as f:
 #     heart_disease_model_lr = pickle.load(file_path,'rb')
-location='/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/models/'
+location='USER LOCATION of model files'
 #heart_disease_model_lr = pickle.load(location+'models/logistic_model_pkl.pkl')
 import pickle
 # heart_disease_model_lr = pickle.load(open(location+'logistic_model_pkl.pkl','rb'))
 # heart_disease_model_dt = pickle.load(open(location+'DecisionTreeClassifier.pkl','rb'))
 # heart_disease_model_xgb = pickle.load(open(location+'XGBoost.pkl','rb'))
 
-heart_disease_model_lr = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/models/logistic_model_pkl.pkl', 'rb'))
-heart_disease_model_dt = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/models/DecisionTreeClassifier.pkl', 'rb'))
-heart_disease_model_xgb = pickle.load(open('/Users/dhanashreekarande/Desktop/SSIT Projects/Heart_Raisoni/Heart_Disease_Final_Module/models/XGBoost.pkl', 'rb'))
+heart_disease_model_lr = pickle.load(open(location+'logistic_model_pkl.pkl', 'rb'))
+heart_disease_model_dt = pickle.load(open(location+'DecisionTreeClassifier.pkl', 'rb'))
+heart_disease_model_xgb = pickle.load(open(location+'XGBoost.pkl', 'rb'))
 
 
 #log.info('heart_disease_model_lr loaded')

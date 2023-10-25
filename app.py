@@ -8,7 +8,7 @@ import logging
 import os
 print(os.getcwd())
 # loading the saved models
-file_path = 'models/logistic_model_pkl.pkl'
+file_path = '/models/logistic_model_pkl.pkl'
 with open(file_path , 'rb') as f:
     heart_disease_model_lr = pickle.load(file_path)
 

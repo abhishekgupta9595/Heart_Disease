@@ -10,7 +10,7 @@ print(os.getcwd())
 # loading the saved models
 file_path = 'logistic_model_pkl'
 with open(file_path , 'rb') as f:
-    heart_disease_model_lr = pickle.load(file_path)
+    heart_disease_model_lr = pickle.load(file_path,'rb')
 
 #heart_disease_model_lr = pickle.load(('models/logistic_model_pkl','rb'))
 #log.info('heart_disease_model_lr loaded')

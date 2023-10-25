@@ -8,11 +8,11 @@ import logging
 import os
 print(os.getcwd())
 # loading the saved models
-heart_disease_model_lr = pickle.load(open('./logistic_model_pkl.pkl','rb'))
+heart_disease_model_lr = pickle.load(open('https://raw.githubusercontent.com/abhishekgupta9595/Heart_Disease/main/logistic_model_pkl.pkl','rb'))
 log.info('heart_disease_model_lr loaded')
-heart_disease_model_dt = pickle.load(open('./DecisionTreeClassifier.pkl','rb'))
+heart_disease_model_dt = pickle.load(open('https://raw.githubusercontent.com/abhishekgupta9595/Heart_Disease/main/DecisionTreeClassifier.pkl','rb'))
 log.info('heart_disease_model_dt loaded')
-heart_disease_model_xgb = pickle.load(open('./XGBoost.pkl','rb'))
+heart_disease_model_xgb = pickle.load(open('https://raw.githubusercontent.com/abhishekgupta9595/Heart_Disease/main/XGBoost.pkl','rb'))
 log.info('heart_disease_model_xgb loaded')
 
 # sidebar for navigation
